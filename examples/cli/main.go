@@ -15,7 +15,7 @@ func main() {
 		fps          = flag.Int("f", 30, "Frames per second")
 		duration     = flag.Float64("d", 0, "Duration in seconds (0 for full audio)")
 		bars         = flag.Int("b", 32, "Number of frequency bars")
-		colorScheme  = flag.String("c", "rainbow", "Color scheme (rainbow, fire, ocean, purple, neon, monochrome, sunset, forest, white)")
+		colorScheme  = flag.String("c", "rainbow", "Color scheme (rainbow, fire, ocean, purple, neon, monochrome, sunset, forest, ice, lava, retro, cosmic, pastel, matrix, white)")
 		vizType      = flag.String("t", "bars", "Visualization type (bars, circular, wave, radial, line, dots, mirror, spiral)")
 		bgColor      = flag.String("bg", "green", "Background color (green, blue, magenta, black, white, gray)")
 		width        = flag.Int("w", 1280, "Video width")

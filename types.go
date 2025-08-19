@@ -13,6 +13,12 @@ const (
 	ColorSchemeMonochrome ColorScheme = "monochrome" // White gradient
 	ColorSchemeSunset     ColorScheme = "sunset"     // Purple to orange
 	ColorSchemeForest     ColorScheme = "forest"     // Dark green to yellow-green
+	ColorSchemeIce        ColorScheme = "ice"        // Ice blue gradient
+	ColorSchemeLava       ColorScheme = "lava"       // Lava/magma colors
+	ColorSchemeRetro      ColorScheme = "retro"      // 80s retro colors
+	ColorSchemeCosmic     ColorScheme = "cosmic"     // Cosmic gradient
+	ColorSchemePastel     ColorScheme = "pastel"     // Soft pastel colors
+	ColorSchemeMatrix     ColorScheme = "matrix"     // Matrix green theme
 	ColorSchemeWhite      ColorScheme = "white"      // Pure white bars
 )
 
@@ -62,7 +68,9 @@ func (c ColorScheme) String() string {
 func (c ColorScheme) IsValid() bool {
 	switch c {
 	case ColorSchemeRainbow, ColorSchemeFire, ColorSchemeOcean, ColorSchemePurple,
-		ColorSchemeNeon, ColorSchemeMonochrome, ColorSchemeSunset, ColorSchemeForest, ColorSchemeWhite:
+		ColorSchemeNeon, ColorSchemeMonochrome, ColorSchemeSunset, ColorSchemeForest,
+		ColorSchemeIce, ColorSchemeLava, ColorSchemeRetro, ColorSchemeCosmic,
+		ColorSchemePastel, ColorSchemeMatrix, ColorSchemeWhite:
 		return true
 	}
 	return false

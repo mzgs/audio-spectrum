@@ -465,6 +465,18 @@ func (v *Visualizer) getColor(magnitude float64) color.Color {
 		return v.getSunsetColor(magnitude)
 	case "forest":
 		return v.getForestColor(magnitude)
+	case "ice":
+		return v.getIceColor(magnitude)
+	case "lava":
+		return v.getLavaColor(magnitude)
+	case "retro":
+		return v.getRetroColor(magnitude)
+	case "cosmic":
+		return v.getCosmicColor(magnitude)
+	case "pastel":
+		return v.getPastelColor(magnitude)
+	case "matrix":
+		return v.getMatrixColor(magnitude)
 	case "white":
 		return color.RGBA{255, 255, 255, 255}
 	default: // "rainbow"
@@ -615,6 +627,155 @@ func (v *Visualizer) getForestColor(magnitude float64) color.Color {
 	r := uint8(magnitude * 150)
 	g := uint8(100 + magnitude*155)
 	return color.RGBA{r, g, 0, 255}
+}
+
+func (v *Visualizer) getIceColor(magnitude float64) color.Color {
+	// Ice blue gradient: white -> light blue -> cyan -> deep blue
+	if magnitude < 0.25 {
+		// White to light blue
+		t := magnitude / 0.25
+		r := uint8(255 - t*55)  // 255 to 200
+		g := uint8(255 - t*35)  // 255 to 220
+		b := uint8(255)
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.5 {
+		// Light blue to cyan
+		t := (magnitude - 0.25) / 0.25
+		r := uint8(200 - t*100)  // 200 to 100
+		g := uint8(220 - t*20)  // 220 to 200
+		b := uint8(255)
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.75 {
+		// Cyan to blue
+		t := (magnitude - 0.5) / 0.25
+		r := uint8(100 - t*100)  // 100 to 0
+		g := uint8(200 - t*100)  // 200 to 100
+		b := uint8(255)
+		return color.RGBA{r, g, b, 255}
+	} else {
+		// Blue to deep blue
+		t := (magnitude - 0.75) / 0.25
+		r := uint8(0)
+		g := uint8(100 - t*50)  // 100 to 50
+		b := uint8(255 - t*55)  // 255 to 200
+		return color.RGBA{r, g, b, 255}
+	}
+}
+
+func (v *Visualizer) getLavaColor(magnitude float64) color.Color {
+	// Lava gradient: black -> dark red -> red -> orange -> yellow -> white
+	if magnitude < 0.15 {
+		// Black to dark red
+		t := magnitude / 0.15
+		r := uint8(t * 100)
+		return color.RGBA{r, 0, 0, 255}
+	} else if magnitude < 0.3 {
+		// Dark red to red
+		t := (magnitude - 0.15) / 0.15
+		r := uint8(100 + t*155)  // 100 to 255
+		return color.RGBA{r, 0, 0, 255}
+	} else if magnitude < 0.5 {
+		// Red to orange-red
+		t := (magnitude - 0.3) / 0.2
+		r := uint8(255)
+		g := uint8(t * 140)  // 0 to 140
+		return color.RGBA{r, g, 0, 255}
+	} else if magnitude < 0.7 {
+		// Orange to yellow-orange
+		t := (magnitude - 0.5) / 0.2
+		r := uint8(255)
+		g := uint8(140 + t*115)  // 140 to 255
+		b := uint8(t * 20)  // 0 to 20
+		return color.RGBA{r, g, b, 255}
+	} else {
+		// Yellow to white hot
+		t := (magnitude - 0.7) / 0.3
+		r := uint8(255)
+		g := uint8(255)
+		b := uint8(20 + t*235)  // 20 to 255
+		return color.RGBA{r, g, b, 255}
+	}
+}
+
+func (v *Visualizer) getRetroColor(magnitude float64) color.Color {
+	// 80s retro colors: purple -> magenta -> cyan -> yellow
+	if magnitude < 0.25 {
+		// Purple to magenta
+		t := magnitude / 0.25
+		r := uint8(128 + t*127)  // 128 to 255
+		g := uint8(0)
+		b := uint8(255 - t*127)  // 255 to 128
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.5 {
+		// Magenta to hot pink
+		t := (magnitude - 0.25) / 0.25
+		r := uint8(255)
+		g := uint8(t * 128)  // 0 to 128
+		b := uint8(128 + t*127)  // 128 to 255
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.75 {
+		// Hot pink to cyan
+		t := (magnitude - 0.5) / 0.25
+		r := uint8(255 - t*255)  // 255 to 0
+		g := uint8(128 + t*127)  // 128 to 255
+		b := uint8(255)
+		return color.RGBA{r, g, b, 255}
+	} else {
+		// Cyan to yellow
+		t := (magnitude - 0.75) / 0.25
+		r := uint8(t * 255)  // 0 to 255
+		g := uint8(255)
+		b := uint8(255 - t*255)  // 255 to 0
+		return color.RGBA{r, g, b, 255}
+	}
+}
+
+func (v *Visualizer) getCosmicColor(magnitude float64) color.Color {
+	// Cosmic gradient: deep purple -> blue -> teal -> pink
+	if magnitude < 0.3 {
+		// Deep purple to blue
+		t := magnitude / 0.3
+		r := uint8(40 - t*40)  // 40 to 0
+		g := uint8(t * 100)  // 0 to 100
+		b := uint8(80 + t*175)  // 80 to 255
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.6 {
+		// Blue to teal
+		t := (magnitude - 0.3) / 0.3
+		r := uint8(t * 64)  // 0 to 64
+		g := uint8(100 + t*155)  // 100 to 255
+		b := uint8(255 - t*127)  // 255 to 128
+		return color.RGBA{r, g, b, 255}
+	} else {
+		// Teal to pink
+		t := (magnitude - 0.6) / 0.4
+		r := uint8(64 + t*191)  // 64 to 255
+		g := uint8(255 - t*155)  // 255 to 100
+		b := uint8(128 + t*127)  // 128 to 255
+		return color.RGBA{r, g, b, 255}
+	}
+}
+
+func (v *Visualizer) getPastelColor(magnitude float64) color.Color {
+	// Soft pastel colors
+	h := magnitude * 0.8  // Limited hue range for softer colors
+	s := 0.4 + magnitude*0.2  // Low to medium saturation
+	val := 0.85 + magnitude*0.15  // High brightness
+	return hsvToRGB(h, s, val)
+}
+
+func (v *Visualizer) getMatrixColor(magnitude float64) color.Color {
+	// Matrix green theme
+	if magnitude < 0.1 {
+		// Very dark green
+		g := uint8(magnitude * 10 * 50)
+		return color.RGBA{0, g, 0, 255}
+	} else {
+		// Dark to bright green
+		g := uint8(50 + magnitude*205)
+		r := uint8(magnitude * magnitude * 100)  // Slight yellow tint at high intensity
+		return color.RGBA{r, g, 0, 255}
+	}
 }
 
 // HSV to RGB conversion helper

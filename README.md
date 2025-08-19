@@ -6,7 +6,7 @@ A high-performance Go library for generating audio spectrum visualization videos
 
 - 🚀 **High Performance** - Optimized FFT processing and parallel frame generation
 - 🎨 **Multiple Visualizations** - 8 different visualization types (bars, circular, wave, radial, etc.)
-- 🌈 **Rich Color Schemes** - 9 built-in color schemes
+- 🌈 **Rich Color Schemes** - 15 built-in color schemes
 - 🎬 **Flexible Output** - Customizable resolution, frame rate, and duration
 - 📦 **Easy Integration** - Simple API for use in your Go projects
 - 🛠️ **FFmpeg Powered** - Reliable audio/video processing
@@ -92,13 +92,19 @@ func main() {
 ## Color Schemes
 
 - **rainbow** - Classic green to red gradient
-- **fire** - Dark red to bright yellow
+- **fire** - Realistic fire colors (black → red → orange → yellow)
 - **ocean** - Dark blue to cyan
 - **purple** - Purple to pink gradient
-- **neon** - Bright full spectrum colors
-- **monochrome** - White gradient
-- **sunset** - Purple to orange
+- **neon** - Electric neon colors (cyan → magenta → green)
+- **monochrome** - Grayscale gradient
+- **sunset** - Deep purple → pink → orange → golden
 - **forest** - Dark green to yellow-green
+- **ice** - Ice blue gradient (white → light blue → cyan → deep blue)
+- **lava** - Volcanic colors (black → dark red → orange → yellow → white)
+- **retro** - 80s retro (purple → magenta → cyan → yellow)
+- **cosmic** - Space theme (deep purple → blue → teal → pink)
+- **pastel** - Soft pastel colors with low saturation
+- **matrix** - Matrix green theme (dark to bright green)
 - **white** - Pure white bars
 
 ## CLI Tool
@@ -115,6 +121,11 @@ go build -o audio-spectrum
 
 # Custom options
 ./audio-spectrum -o output.mp4 -f 60 -b 64 -c fire -t circular input.mp3
+
+# Try new color schemes
+./audio-spectrum -c lava -bg black input.mp3
+./audio-spectrum -c retro -bg black input.mp3
+./audio-spectrum -c pastel -bg white input.mp3
 ```
 
 ## API Reference
@@ -156,7 +167,8 @@ The library provides type-safe constants for all options:
 // Color Schemes
 ColorSchemeRainbow, ColorSchemeFire, ColorSchemeOcean, ColorSchemePurple,
 ColorSchemeNeon, ColorSchemeMonochrome, ColorSchemeSunset, ColorSchemeForest,
-ColorSchemeWhite
+ColorSchemeIce, ColorSchemeLava, ColorSchemeRetro, ColorSchemeCosmic,
+ColorSchemePastel, ColorSchemeMatrix, ColorSchemeWhite
 
 // Visualization Types
 VisTypeBars, VisTypeCircular, VisTypeWave, VisTypeRadial,
