@@ -578,16 +578,36 @@ func (v *Visualizer) getMonochromeColor(magnitude float64) color.Color {
 }
 
 func (v *Visualizer) getSunsetColor(magnitude float64) color.Color {
-	if magnitude < 0.5 {
-		// Purple to red
-		r := uint8(magnitude * 2 * 255)
-		b := uint8(255 - magnitude*2*255)
-		return color.RGBA{r, 0, b, 255}
+	// Sunset gradient: deep purple -> pink -> orange -> golden yellow
+	if magnitude < 0.25 {
+		// Deep purple to purple-pink
+		t := magnitude / 0.25
+		r := uint8(75 + t*105)  // 75 to 180
+		g := uint8(t * 50)  // 0 to 50
+		b := uint8(130 - t*30)  // 130 to 100
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.5 {
+		// Purple-pink to pink-orange
+		t := (magnitude - 0.25) / 0.25
+		r := uint8(180 + t*75)  // 180 to 255
+		g := uint8(50 + t*70)  // 50 to 120
+		b := uint8(100 - t*70)  // 100 to 30
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.75 {
+		// Pink-orange to orange
+		t := (magnitude - 0.5) / 0.25
+		r := uint8(255)
+		g := uint8(120 + t*60)  // 120 to 180
+		b := uint8(30 - t*30)  // 30 to 0
+		return color.RGBA{r, g, b, 255}
+	} else {
+		// Orange to golden yellow
+		t := (magnitude - 0.75) / 0.25
+		r := uint8(255)
+		g := uint8(180 + t*40)  // 180 to 220
+		b := uint8(t * 50)  // 0 to 50
+		return color.RGBA{r, g, b, 255}
 	}
-	// Red to orange
-	r := uint8(255)
-	g := uint8((magnitude - 0.5) * 2 * 180)
-	return color.RGBA{r, g, 0, 255}
 }
 
 func (v *Visualizer) getForestColor(magnitude float64) color.Color {
