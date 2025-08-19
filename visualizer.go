@@ -482,15 +482,39 @@ func (v *Visualizer) getRainbowColor(magnitude float64) color.Color {
 }
 
 func (v *Visualizer) getFireColor(magnitude float64) color.Color {
-	if magnitude < 0.5 {
-		// Dark red to bright red
-		r := 100 + uint8(magnitude*310)
-		return color.RGBA{r, 0, 0, 255}
+	// Fire color gradient: deep red -> bright red -> orange -> yellow -> yellow-green
+	if magnitude < 0.2 {
+		// Deep red to bright red
+		t := magnitude / 0.2
+		r := uint8(180 + t*75)  // 180 to 255
+		g := uint8(0)
+		return color.RGBA{r, g, 0, 255}
+	} else if magnitude < 0.4 {
+		// Bright red to orange-red
+		t := (magnitude - 0.2) / 0.2
+		r := uint8(255)
+		g := uint8(t * 100)  // 0 to 100
+		return color.RGBA{r, g, 0, 255}
+	} else if magnitude < 0.6 {
+		// Orange-red to bright orange
+		t := (magnitude - 0.4) / 0.2
+		r := uint8(255)
+		g := uint8(100 + t*80)  // 100 to 180
+		return color.RGBA{r, g, 0, 255}
+	} else if magnitude < 0.8 {
+		// Bright orange to yellow
+		t := (magnitude - 0.6) / 0.2
+		r := uint8(255)
+		g := uint8(180 + t*75)  // 180 to 255
+		return color.RGBA{r, g, 0, 255}
+	} else {
+		// Yellow to yellow-green (hottest)
+		t := (magnitude - 0.8) / 0.2
+		r := uint8(255 - t*55)  // 255 to 200
+		g := uint8(255)
+		b := uint8(t * 50)  // 0 to 50 for slight green tint
+		return color.RGBA{r, g, b, 255}
 	}
-	// Red to yellow
-	r := uint8(255)
-	g := uint8((magnitude - 0.5) * 2 * 255)
-	return color.RGBA{r, g, 0, 255}
 }
 
 func (v *Visualizer) getOceanColor(magnitude float64) color.Color {
@@ -508,11 +532,43 @@ func (v *Visualizer) getPurpleColor(magnitude float64) color.Color {
 }
 
 func (v *Visualizer) getNeonColor(magnitude float64) color.Color {
-	// Full spectrum neon
-	h := magnitude
-	s := 1.0
-	val := 1.0
-	return hsvToRGB(h, s, val)
+	// Bright neon colors: cyan -> blue -> magenta -> pink -> green
+	if magnitude < 0.2 {
+		// Cyan to electric blue
+		t := magnitude / 0.2
+		r := uint8(0)
+		g := uint8(255 - t*155)  // 255 to 100
+		b := uint8(255)
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.4 {
+		// Electric blue to magenta
+		t := (magnitude - 0.2) / 0.2
+		r := uint8(t * 255)
+		g := uint8(100 - t*100)  // 100 to 0
+		b := uint8(255)
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.6 {
+		// Magenta to hot pink
+		t := (magnitude - 0.4) / 0.2
+		r := uint8(255)
+		g := uint8(t * 100)  // 0 to 100
+		b := uint8(255 - t*55)  // 255 to 200
+		return color.RGBA{r, g, b, 255}
+	} else if magnitude < 0.8 {
+		// Hot pink to electric green
+		t := (magnitude - 0.6) / 0.2
+		r := uint8(255 - t*255)  // 255 to 0
+		g := uint8(100 + t*155)  // 100 to 255
+		b := uint8(200 - t*200)  // 200 to 0
+		return color.RGBA{r, g, b, 255}
+	} else {
+		// Electric green to bright cyan
+		t := (magnitude - 0.8) / 0.2
+		r := uint8(0)
+		g := uint8(255)
+		b := uint8(t * 255)  // 0 to 255
+		return color.RGBA{r, g, b, 255}
+	}
 }
 
 func (v *Visualizer) getMonochromeColor(magnitude float64) color.Color {
