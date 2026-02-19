@@ -20,7 +20,7 @@ func main() {
 		bgColor      = flag.String("bg", "green", "Background color (green, blue, magenta, black, white, gray)")
 		width        = flag.Int("w", 1280, "Video width")
 		height       = flag.Int("h", 720, "Video height")
-		processType  = flag.String("method", "fast", "Processing method (fast, parallel)")
+		processType  = flag.String("method", "parallel", "Processing method (fast, parallel)")
 	)
 	
 	flag.Usage = func() {

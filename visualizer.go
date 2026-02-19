@@ -10,6 +10,7 @@ import (
 	"path/filepath"
 	"runtime"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/fogleman/gg"
@@ -322,6 +323,8 @@ func (v *Visualizer) createVideoParallel() error {
 	
 	jobs := make(chan job, v.totalFrames)
 	errors := make(chan error, numWorkers)
+	var completed int64
+	var printMu sync.Mutex
 	
 	// Start workers
 	var wg sync.WaitGroup
@@ -335,19 +338,22 @@ func (v *Visualizer) createVideoParallel() error {
 					errors <- fmt.Errorf("saving frame %d: %w", j.frameIdx, err)
 					return
 				}
+
+				done := atomic.AddInt64(&completed, 1)
+				if done%30 == 0 || done == int64(v.totalFrames) {
+					printMu.Lock()
+					fmt.Printf("Processed frame %d/%d (%.1f%%)\n", done, v.totalFrames, float64(done)/float64(v.totalFrames)*100)
+					printMu.Unlock()
+				}
 			}
 		}()
 	}
-	
+
 	// Send jobs
 	for i := 0; i < v.totalFrames; i++ {
 		jobs <- job{
 			frameIdx: i,
 			filename: filepath.Join(tempDir, fmt.Sprintf("frame_%06d.png", i)),
-		}
-		
-		if i%30 == 0 {
-			fmt.Printf("Queued frame %d/%d (%.1f%%)\n", i, v.totalFrames, float64(i)/float64(v.totalFrames)*100)
 		}
 	}
 	close(jobs)
